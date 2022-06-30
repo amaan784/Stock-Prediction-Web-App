@@ -1,18 +1,16 @@
-# importing necessary packages
-# streamlit fbprophet yfinance plotly
-
 # the web framework
 import streamlit as st 
 
 # for forecasting / prediction
-# from fbprophet import Prophet
-# from fbprophet.plot import plot_plotly
-# import pystan
+from fbprophet import Prophet
+from fbprophet.plot import plot_plotly
+import pystan
+import prophet 
 
-# yahoo finance package for getting stock data
+# yahoo finance API/ package for getting stock data
 import yfinance as yf
 
-# a plotting package
+# a figure / graph plotting package
 from plotly import graph_objs as go
 
 # date time package 
@@ -25,8 +23,8 @@ START = "2012-01-01"
 TODAY = date.today().strftime("%Y-%m-%d")
 
 # giving the web app a title
-st.title("The Stock Prediction App")
-st.subheader("A Web Application for Stock Prediction\n")
+st.title("The Stock Forecast App")
+st.subheader("A Web Application for Stock Forecast\n")
 
 # choosing stocks that we want to display / deal with 
 # choosing from https://finance.yahoo.com/
@@ -62,6 +60,10 @@ def load_stock_data(stock_code):
     data.reset_index(inplace=True)
     return data
 
+# for adding space
+for i in range(3):
+    st.text("")
+
 # loads the data and has placeholders for before and after loading the data
 # loads the data through load_stock_data() which we made
 stock_data_state = st.text("Load data...")
@@ -82,6 +84,7 @@ def plot_data():
         Creates scatter plots for a particular stock
         The y axis contains the opening and closing price and the x axis contains the date/time
     """
+    st.subheader("Plotting Scatter Plots")
     # creating a plotly graph object figure
     figure = go.Figure()
     
@@ -91,15 +94,48 @@ def plot_data():
     # we have appropriate labels and titles
     figure.add_trace(go.Scatter(x=stock_data['Date'], y=stock_data['Open'], name='Open Price'))
     figure.add_trace(go.Scatter(x=stock_data['Date'], y=stock_data['Close'], name='Closing Price'))
-    figure.layout.update(title_text="Scatter Plots", xaxis_rangeslider_visible=True)
+    #figure.layout.update(title_text="Plotting Scatter Plots", xaxis_rangeslider_visible=True)
+    figure.layout.update(xaxis_rangeslider_visible=True)
     st.plotly_chart(figure)
     
 # calls the plot_data() function which we made for plotting the data
 plot_data()
 
-# Forecasting
-df_train = stock_data['Date', 'Close']
-df_train = df_train.rename(columns={"Date": "ds", "Close": "y"})
+# Forecasting closing price for stocks using Facebook prophet
+# slicing the colums into a new dataframe and then renaming the columns in it
+# renaming is necessary for the fbprophet package (its a requirement)
+df_train = stock_data[['Date', 'Close']]
+df_train = df_train.rename(columns={'Date': 'ds', 'Close': 'y'})
 
+# creating a prophet object
+model = Prophet()
+
+# fitting the data 
+model.fit(df_train)
+
+# doing the forecast
+# we get a future dataframe
+# the period is the number selected in the slider by the user so we get the prediction for those many years 
+# if the user selects 10 then we get 10 years of prediction from the current date
+future_dataframe = model.make_future_dataframe(periods=period)
+
+# doing the forecast
+forecast = model.predict(future_dataframe)
+
+# displaying the last 5 forecast / predicted rows
+st.subheader('\nForecast Data')
+st.write(forecast.tail())
+
+# plotting the forecast we got
+st.text("")
+st.subheader('\n\n\nPlotting Forecast Data')
+st.write('ds here means datestamp and y is the stock price')
+figure1 = plot_plotly(model, forecast)
+st.plotly_chart(figure1, )
+
+# plotting forecast components like trend, weekly, yearly
+st.subheader('\nPlotting Forecast Components')
+figure2 = model.plot_components(forecast)
+st.write(figure2)
 # if __name__ == '__main__':
 #   main()
