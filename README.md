@@ -14,7 +14,9 @@ Forecasting is an estimation of a future events which one can make by incorporat
 
 ### Sources-
 
-[Tutorial by Python Engineer](https://www.youtube.com/watch?v=0E_31WqVzCY)
+[Streamlit Tutorial by Python Engineer](https://www.youtube.com/watch?v=0E_31WqVzCY)
+
+[Streamlit Hosting Tutorial by Data Professor](https://youtu.be/zK4Ch6e1zq8)
 
 [Yahoo Finance Website](https://finance.yahoo.com/)
 
