@@ -22,25 +22,35 @@ from datetime import date
 START = "2012-01-01"
 TODAY = date.today().strftime("%Y-%m-%d")
 
-# giving the web app a title
+# giving the web app a title and a subheader
 st.title("The Stock Forecast App")
 st.subheader("A Web Application for Stock Forecast\n")
 
 # choosing stocks that we want to display / deal with 
 # choosing from https://finance.yahoo.com/
+# since we wanted to display the company names on the dropdown instead of the company stock code 
+# so another tuple was created for the full company names with the same indices as the stock codes list
+# then the 2 tuples were matched and they formed a dictionary
+# for each item in the dictionarys, the key is the company name and the value is the company stock code
 # displaying them in ascending order
-unsortedStocksList = ("JNJ", "GOOG", "AAPL", "BRK-A", "AMZN", "MSFT", "JPM", "NFLX", "META", "BAC", "GME", "MCD", "KO")
+unsortedStocksCodes = ("JNJ", "GOOG", "AAPL", "BRK-A", "AMZN", "MSFT", "JPM", "NFLX", "META", "BAC", "GME", "MCD", "KO")
+unsortedStocksList = ("Johnson & Johnson", "Alphabet Inc Class C", "Apple Inc", "Berkshire Hathaway Inc. Class A", 
+                      "Amazon.com, Inc.", "Microsoft Corporation", "JPMorgan Chase & Co", "Netflix Inc", "Meta Platforms Inc", 
+                      "Bank of America Corp", "GameStop Corp.", "McDonald's Corp", "Coca-Cola Co")
+stocks_dictionary = dict(zip(list(unsortedStocksList), list(unsortedStocksCodes)))
 stocks = sorted(unsortedStocksList)
 stocks = tuple(stocks)
 
 # creating a dropdown box for user selection
+# whenever the company name is selected in the dropdown, its looked up in the dictionary to find the stocks code
 dropdown_box_selection = st.selectbox("\nSelect a stock for prediction\n", stocks)
+dropdown_box_selection = stocks_dictionary[dropdown_box_selection]
 
 # creating a slider for selecting number of years of stock data
 # calculating the no. of days based on the slider selection
 n_years = st.slider("\nYears of prediction", 1, 10)
 period = n_years * 365
-    
+
 @st.cache
 def load_stock_data(stock_code):
     """
@@ -137,5 +147,7 @@ st.plotly_chart(figure1, )
 st.subheader('\nPlotting Forecast Components')
 figure2 = model.plot_components(forecast)
 st.write(figure2)
+
+
 # if __name__ == '__main__':
 #   main()
