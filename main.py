@@ -2,11 +2,13 @@
 import streamlit as st 
 
 # for forecasting / prediction
-from fbprophet import Prophet
-from fbprophet.plot import plot_plotly
+# from fbprophet import Prophet
+# from fbprophet.plot import plot_plotly
 # unused packages related to fb prophet
 # import pystan
 # import prophet
+from prophet import Prophet
+from prophet.plot import plot_plotly
 
 # yahoo finance API/ package for getting stock data
 import yfinance as yf
