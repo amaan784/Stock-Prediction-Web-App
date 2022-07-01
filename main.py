@@ -4,8 +4,9 @@ import streamlit as st
 # for forecasting / prediction
 from fbprophet import Prophet
 from fbprophet.plot import plot_plotly
-import pystan
-import prophet 
+# unused packages related to fb prophet
+# import pystan
+# import prophet
 
 # yahoo finance API/ package for getting stock data
 import yfinance as yf
@@ -41,15 +42,6 @@ stocks_dictionary = dict(zip(list(unsortedStocksList), list(unsortedStocksCodes)
 stocks = sorted(unsortedStocksList)
 stocks = tuple(stocks)
 
-# creating a dropdown box for user selection
-# whenever the company name is selected in the dropdown, its looked up in the dictionary to find the stocks code
-dropdown_box_selection = st.selectbox("\nSelect a stock for prediction\n", stocks)
-dropdown_box_selection = stocks_dictionary[dropdown_box_selection]
-
-# creating a slider for selecting number of years of stock data
-# calculating the no. of days based on the slider selection
-n_years = st.slider("\nYears of prediction", 1, 10)
-period = n_years * 365
 
 @st.cache
 def load_stock_data(stock_code):
@@ -70,26 +62,8 @@ def load_stock_data(stock_code):
     data.reset_index(inplace=True)
     return data
 
-# for adding space
-for i in range(3):
-    st.text("")
 
-# loads the data and has placeholders for before and after loading the data
-# loads the data through load_stock_data() which we made
-stock_data_state = st.text("Load data...")
-stock_data = load_stock_data(dropdown_box_selection)    
-stock_data_state.text("Data Loaded!")
-
-
-# writes a subheading
-# displays the stock data as a pandas dataframe
-st.subheader("\nDisplaying first 5 rows for the Stock Data")
-st.write(stock_data.head())
-st.subheader("Displaying last 5 rows for the Stock Data")
-st.write(stock_data.tail())
-
-
-def plot_data():
+def plot_data(stock_data):
     """
         Creates scatter plots for a particular stock
         The y axis contains the opening and closing price and the x axis contains the date/time
@@ -108,46 +82,89 @@ def plot_data():
     figure.layout.update(xaxis_rangeslider_visible=True)
     st.plotly_chart(figure)
     
-# calls the plot_data() function which we made for plotting the data
-plot_data()
+    
+def main():
+    # creating a dropdown box for user selection
+    # whenever the company name is selected in the dropdown, its looked up in the dictionary to find the stocks code
+    dropdown_box_selection = st.selectbox("\nSelect a stock for prediction\n", stocks)
+    dropdown_box_selection_stock_code = stocks_dictionary[dropdown_box_selection]
 
-# Forecasting closing price for stocks using Facebook prophet
-# slicing the colums into a new dataframe and then renaming the columns in it
-# renaming is necessary for the fbprophet package (its a requirement)
-df_train = stock_data[['Date', 'Close']]
-df_train = df_train.rename(columns={'Date': 'ds', 'Close': 'y'})
+    # creating a slider for selecting number of years of stock data
+    # calculating the no. of days based on the slider selection
+    n_years = st.slider("\nYears of prediction", 1, 10)
+    period = n_years * 365
 
-# creating a prophet object
-model = Prophet()
+    # for adding space
+    for i in range(3):
+        st.text("")
 
-# fitting the data 
-model.fit(df_train)
-
-# doing the forecast
-# we get a future dataframe
-# the period is the number selected in the slider by the user so we get the prediction for those many years 
-# if the user selects 10 then we get 10 years of prediction from the current date
-future_dataframe = model.make_future_dataframe(periods=period)
-
-# doing the forecast
-forecast = model.predict(future_dataframe)
-
-# displaying the last 5 forecast / predicted rows
-st.subheader('\nForecast Data')
-st.write(forecast.tail())
-
-# plotting the forecast we got
-st.text("")
-st.subheader('\n\n\nPlotting Forecast Data')
-st.write('ds here means datestamp and y is the stock price')
-figure1 = plot_plotly(model, forecast)
-st.plotly_chart(figure1, )
-
-# plotting forecast components like trend, weekly, yearly
-st.subheader('\nPlotting Forecast Components')
-figure2 = model.plot_components(forecast)
-st.write(figure2)
+    # loads the data and has placeholders for before and after loading the data
+    # loads the data through load_stock_data() which we made
+    s = "Loading data for " + dropdown_box_selection + "..." 
+    stock_data_state = st.text(s)
+    stock_data = load_stock_data(dropdown_box_selection_stock_code)    
+    s = "Data Loaded for " + dropdown_box_selection + "!"
+    stock_data_state.text(s)
 
 
-# if __name__ == '__main__':
-#   main()
+    # writes a subheading
+    # displays the stock data as a pandas dataframe
+    s = "\nDisplaying first 5 rows for the " + "'" + dropdown_box_selection + "'" + " Stock Data"
+    st.subheader(s)
+    st.write(stock_data.head())
+    s = "\nDisplaying last 5 rows for the " + "'" + dropdown_box_selection + "'" + " Stock Data"
+    st.subheader(s)
+    st.write(stock_data.tail())
+    
+    # calls the plot_data() function which we made for plotting the data
+    plot_data(stock_data)
+
+    # placing placeholders for forecasting
+    s = "Forecasting data for " + "'" + dropdown_box_selection + "'" + "..." 
+    forecast_state = st.text(s) 
+
+    # Forecasting closing price for stocks using Facebook prophet
+    # slicing the colums into a new dataframe and then renaming the columns in it
+    # renaming is necessary for the fbprophet package (its a requirement)
+    df_train = stock_data[['Date', 'Close']]
+    df_train = df_train.rename(columns={'Date': 'ds', 'Close': 'y'})
+
+    # creating a prophet object
+    model = Prophet()
+
+    # fitting the data 
+    model.fit(df_train)
+
+    # doing the forecast
+    # we get a future dataframe
+    # the period is the number selected in the slider by the user so we get the prediction for those many years 
+    # if the user selects 10 then we get 10 years of prediction from the current date
+    future_dataframe = model.make_future_dataframe(periods=period)
+
+    # doing the forecast
+    forecast = model.predict(future_dataframe)
+
+    # displaying the last 5 forecast / predicted rows
+    s = "\nForecast Data for " + "'" + dropdown_box_selection + "'" + " Stock Data"
+    st.subheader(s)
+    st.write(forecast.tail())
+
+    # plotting the forecast we got
+    st.text("")
+    st.subheader('\n\n\nPlotting Forecast Data')
+    st.write('ds here means datestamp and y is the stock price')
+    figure1 = plot_plotly(model, forecast)
+    st.plotly_chart(figure1, )
+
+    # plotting forecast components like trend, weekly, yearly
+    st.subheader('\nPlotting Forecast Components')
+    figure2 = model.plot_components(forecast)
+    st.write(figure2)
+
+    # placing placeholders for forecasting
+    s = "Forecasting done for " + "'" + dropdown_box_selection + "'" + "!"
+    forecast_state.text(s)
+
+
+if __name__ == '__main__':
+  main()
