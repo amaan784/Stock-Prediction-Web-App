@@ -3,6 +3,24 @@
 # Stock-Prediction-Web-App
 A Stock Forecast / Prediction Web Application made using Streamlit
 
+### Instructions to run-
+
+Required Python Version is 3.8.8 (fbprphet doesnt run on the latest python version)-
+
+`pip install -r requirements.txt`
+
+`streamlit run main.py`
+
+Or open in browser-
+
+https://stock-forecast-streamlit.herokuapp.com/
+
+### Difference between Forecast and Prediction
+
+Forecasting is an estimation of a future events which one can make by incorporating and casting forward data related to the past in a pre-determined and systematic manner. Prediction is an estimate of future events made by subjective considerations.
+
+[Source: Key Differences](https://keydifferences.com/difference-between-forecasting-and-prediction.html#:~:text=Forecasting%20is%20an%20estimation%20of,events%20made%20by%20subjective%20considerations.)
+
 ### Notes: 
 - The graphs in the app are interactive (except the forecast components one).
 - The default stock for prediction is AAPL (Apple).
@@ -12,12 +30,6 @@ A Stock Forecast / Prediction Web Application made using Streamlit
 ### TODO (maybe):
 - download the csv file from the NASDAQ site (https://www.nasdaq.com/market-activity/stocks/screener)
 - display all / most stock names in the selection or just allow a search. Use a pandas dataframe for it.
-
-### Difference between Forecast and Prediction
-
-Forecasting is an estimation of a future events which one can make by incorporating and casting forward data related to the past in a pre-determined and systematic manner. Prediction is an estimate of future events made by subjective considerations.
-
-[Source: Key Differences](https://keydifferences.com/difference-between-forecasting-and-prediction.html#:~:text=Forecasting%20is%20an%20estimation%20of,events%20made%20by%20subjective%20considerations.)
 
 ### Sources-
 
