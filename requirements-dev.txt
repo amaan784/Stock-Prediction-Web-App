@@ -1,4 +1,0 @@
-black
-pipenv-to-requirements
-pre-commit
-pylint
