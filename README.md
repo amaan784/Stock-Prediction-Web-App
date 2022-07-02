@@ -1,6 +1,8 @@
 # Stock-Prediction-Web-App
 A Stock Forecast / Prediction Web Application made using Streamlit
 
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://stock-forecast-streamlit.herokuapp.com/)
+
 Notes: 
     The graphs in the app are interactive (except the forecast components one)
     The default stock for prediction is AAPL (Apple) 
