@@ -4,9 +4,12 @@
 A Stock Forecast / Prediction Web Application made using Streamlit
 
 Notes: 
-    The graphs in the app are interactive (except the forecast components one)
-    The default stock for prediction is AAPL (Apple) 
-    The forecast part takes time to run since the computation by fbprophet is complicated
+    TODO (maybe): download the csv file from the NASDAQ site (https://www.nasdaq.com/market-activity/stocks/screener) and display all / most stock names in the selection                   or just allow a search. 
+    ^Use a pandas dataframe for it.
+    The graphs in the app are interactive (except the forecast components one).
+    The default stock for prediction is AAPL (Apple).
+    The default prediction year is 1.
+    The forecast part takes time to run since the computation by fbprophet is complicated.
 
 ### Difference between Forecast and Prediction
 
