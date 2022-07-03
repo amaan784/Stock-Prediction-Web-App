@@ -25,10 +25,6 @@ from datetime import date
 START = "2012-01-01"
 TODAY = date.today().strftime("%Y-%m-%d")
 
-# giving the web app a title and a subheader
-st.title("The Stock Forecast App")
-st.subheader("A Web Application for Stock Forecast\n")
-
 # choosing stocks that we want to display / deal with 
 # choosing from https://finance.yahoo.com/
 # since we wanted to display the company names on the dropdown instead of the company stock code 
@@ -86,12 +82,27 @@ def plot_data(stock_data):
     
     
 def main():
+    # giving the web app a title and a subheader
+    st.title("The Stock Forecast App")
+    st.subheader("A Web Application for Stock Forecast\n")
+    st.markdown("""
+    **Source Code:** [https://github.com/amaan784/Stock-Prediction-Web-App](https://github.com/amaan784/Stock-Prediction-Web-App).
+    
+    **Instructions-**
+    * Select a Stock
+    * Select number of years for prediction
+    * Wait for the forecast to happen!
+    """)
+    # for adding space
+    for i in range(3):
+        st.text("")
+
     # creating a dropdown box for user selection
     # whenever the company name is selected in the dropdown, its looked up in the dictionary to find the stocks code
     dropdown_box_selection = st.selectbox("\nSelect a stock for prediction\n", stocks)
     dropdown_box_selection_stock_code = stocks_dictionary[dropdown_box_selection]
 
-    # creating a slider for selecting number of years of stock data
+    # creating a slider for selecting number of years of stock data to predict
     # calculating the no. of days based on the slider selection
     n_years = st.slider("\nYears of prediction", 1, 10)
     period = n_years * 365

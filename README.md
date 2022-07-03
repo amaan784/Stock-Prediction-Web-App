@@ -30,6 +30,7 @@ Forecasting is an estimation of a future events which one can make by incorporat
 ### TODO (maybe):
 - download the csv file from the NASDAQ site (https://www.nasdaq.com/market-activity/stocks/screener)
 - display all / most stock names in the selection or just allow a search. Use a pandas dataframe for it.
+- explore more of fbprophet / prophet
 
 ### Sources-
 
