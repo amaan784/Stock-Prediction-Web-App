@@ -35,12 +35,20 @@ Forecasting is an estimation of a future events which one can make by incorporat
 
 [Streamlit Tutorial by Python Engineer](https://www.youtube.com/watch?v=0E_31WqVzCY)
 
-[Streamlit Hosting Tutorial by Data Professor](https://youtu.be/zK4Ch6e1zq8)
-
 [Yahoo Finance Website](https://finance.yahoo.com/)
 
 [Streamlit Documentation](https://docs.streamlit.io/)
 
 [Facebook Prophet Documentation](https://facebook.github.io/prophet/docs/quick_start.html#python-api)
+
+Hosting Streamlit help-
+
+- [Streamlit Hosting Tutorial by Data Professor](https://youtu.be/zK4Ch6e1zq8)
+
+- https://github.com/edkrueger/covid-forecast (done by creating a pipenv environment)
+
+- https://github.com/HansikaSachdeva/Stock-Prediction-Web-App
+
+- https://github.com/michaeltuijp/streamlit-crypto-forecaster
 
 
