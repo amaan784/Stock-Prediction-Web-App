@@ -28,7 +28,7 @@ Forecasting is an estimation of a future events which one can make by incorporat
 - The forecast part takes time to run since the computation by fbprophet is complicated.
     
 ### TODO (maybe):
-- download the csv file from the NASDAQ site (https://www.nasdaq.com/market-activity/stocks/screener)
+- view the csv file (present in the unused stock data folder) from the NASDAQ site (https://www.nasdaq.com/market-activity/stocks/screener)
 - display all / most stock names in the selection or just allow a search. Use a pandas dataframe for it.
 - explore more of fbprophet / prophet
 
