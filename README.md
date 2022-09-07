@@ -27,6 +27,9 @@ Forecasting is an estimation of a future events which one can make by incorporat
 - The default prediction year is 1.
 - The forecast part takes time to run since the computation by fbprophet is complicated.
     
+### Key Learning:
+> Always watch out for the python version of packages and environements (hosting the site and installing fbprophet took a lot of time because of this)
+
 ### TODO (maybe):
 - view the csv file (present in the unused stock data folder) from the NASDAQ site (https://www.nasdaq.com/market-activity/stocks/screener)
 - display all / most stock names in the selection or just allow a search. Use a pandas dataframe for it.
